@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "aoc2022_2": {
+      "commandName": "Project",
+      "commandLineArgs": "< $(ProjectDir)\\\\test.txt"
+    }
+  }
+}
