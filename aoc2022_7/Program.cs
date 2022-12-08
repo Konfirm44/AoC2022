@@ -7,35 +7,26 @@ while ((line = Console.ReadLine()) is not null)
 {
     var words = line.Trim().Split(' ');
 
-    if (words[0] is "$")
+    if (words[0] is "$" && words[1] is "cd")
     {
-        if (words[1] is "cd")
+        var targetDir = words[2];
+        currentDir = targetDir switch
         {
-            var targetDir = words[2];
-            currentDir = targetDir switch
-            {
-                "/" => currentDir = root,
-                ".." => currentDir = currentDir.Parent,
-                _ => (Directory)currentDir.Elements
-                    .First(d => d.Name == targetDir)
-            };
-        }
-        else //ls
-        {
-        }
+            "/" => currentDir = root,
+            ".." => currentDir = currentDir.Parent,
+            _ => (Directory)currentDir.Elements
+                .First(d => d.Name == targetDir)
+        };
     }
-    else //ls output
+    else if (words[0] is "dir")
     {
-        if (words[0] is "dir")
-        {
-            currentDir.MakeDirectory(words[1], directories);
-        }
-        else //file
-        {
-            var size = int.Parse(words[0]);
-            var file = new File(words[1], currentDir, size);
-            currentDir.AddFile(file);
-        }
+        currentDir.MakeDirectory(words[1], directories);
+    }
+    else if (words[0] is not "$")
+    {
+        var size = int.Parse(words[0]);
+        var file = new File(words[1], currentDir, size);
+        currentDir.AddFile(file);
     }
 }
 
